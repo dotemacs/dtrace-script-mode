@@ -1,36 +1,36 @@
-;;; d-mode.el --- D code editing commands for Emacs
+;;; dtrace-script-mode.el --- DTrace code editing commands for Emacs
 
 ;;; Commentary:
 
-;; D-Mode: Mode for editing DTrace D language.
+;; dtrace-script-mode: Mode for editing DTrace D language.
 ;;
 ;; You can add the following to your .emacs:
 ;;
-;; (autoload 'd-mode "d-mode" () t)
-;; (add-to-list 'auto-mode-alist '("\\.d\\'" . d-mode))
+;; (autoload 'dtrace-script-mode "dtrace-script-mode" () t)
+;; (add-to-list 'auto-mode-alist '("\\.d\\'" . dtrace-script-mode))
 ;;
-;; When loaded, runs all hooks from d-mode-hook
+;; When loaded, runs all hooks from dtrace-script-mode-hook
 ;; You may try
 ;;
-;; (add-hook 'd-mode-hook 'imenu-add-menubar-index)
-;; (add-hook 'd-mode-hook 'font-lock-mode)
+;; (add-hook 'dtrace-script-mode-hook 'imenu-add-menubar-index)
+;; (add-hook 'dtrace-script-mode-hook 'font-lock-mode)
 ;;
 ;; Alexander Kolbasov <akolb at sun dot com>
 ;;
 
 ;;
-;; The D-mode inherits from C-mode.
+;; The dtrace-script-mode inherits from C-mode.
 ;; It supports imenu and syntax highlighting.
 ;;
 
-;; $Id: d-mode.el,v 1.4 2007/07/17 22:10:23 akolb Exp $
+;; $Id: dtrace-script-mode.el,v 1.4 2007/07/17 22:10:23 akolb Exp $
 
 ;;; Code:
 
-(defvar d-mode-map nil "Keymap used in D mode buffers.")
+(defvar dtrace-script-mode-map nil "Keymap used in D mode buffers.")
 
 ;;
-;; Define D-mode map unless it was defined already
+;; Define dtrace-script-mode map unless it was defined already
 ;;
 ;; We just use c-mode-map with a few tweaks:
 ;;
@@ -43,8 +43,8 @@
 ;; to beginning-of-defun and not to c-beginning-of-defun and the same goes for
 ;; C-M-e, so we just define the new bindings.
 ;;
-(unless d-mode-map
-  (setq d-mode-map
+(unless dtrace-script-mode-map
+  (setq dtrace-script-mode-map
 	(let ((map (c-make-inherited-keymap)))
 	  (define-key map "\e\C-a" 'd-beginning-of-function)
 	  (define-key map "\e\C-e" 'd-end-of-function)
@@ -53,7 +53,7 @@
 	  (define-key map [(control meta h)] 'd-mark-function)
 	  map)))
 
-(defvar d-mode-syntax-table
+(defvar dtrace-script-mode-syntax-table
   (let ((st (make-syntax-table (standard-syntax-table))))
     (modify-syntax-entry ?/ "$" st)
     (modify-syntax-entry ?` "." st)
@@ -71,7 +71,7 @@
     (modify-syntax-entry ?/  ". 14" st)
     (modify-syntax-entry ?*  ". 23"   st)
     st)
-  "Syntax table in use in `D-mode' buffers.")
+  "Syntax table in use in `dtrace-script-mode' buffers.")
 
 ;;
 ;; Show probes, pragmas and inlines in imenu
@@ -85,7 +85,7 @@
     )
   "Imenu generic expression for D mode.  See `imenu-generic-expression'.")
 
-(defvar d-mode-hook nil
+(defvar dtrace-script-mode-hook nil
   "Hooks to run when entering D mode.")
 
 ;;
@@ -324,17 +324,17 @@ With argument, repeat that many times; negative args move backward."
 
 
 ;;;###autoload
-(define-derived-mode d-mode c-mode "D"
-  "Major mode for editing D code.
+(define-derived-script-mode dtrace-script-mode c-mode "DTrace"
+  "Major mode for editing DTrace code.
 This is much like C mode.  Its keymap inherits from C mode's and it has the same
 variables for customizing indentation.  It has its own abbrev table and its own
 syntax table.
-\\{d-mode-map}
+\\{dtrace-script-mode-map}
 
-Turning on D mode runs `d-mode-hook'."
+Turning on DTrace mode runs `dtrace-script-mode-hook'."
   (setq imenu-generic-expression d-imenu-generic-expression)
   (setq font-lock-defaults '(d-font-lock-keywords nil nil ((?_ . "w")))))
 
-(provide 'd-mode)
+(provide 'dtrace-script-mode)
 
-;;; d-mode.el ends here
+;;; dtrace-script-mode.el ends here
