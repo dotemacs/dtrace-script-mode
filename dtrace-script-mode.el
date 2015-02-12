@@ -55,6 +55,8 @@
 
 ;;; Code:
 
+(require 'cc-mode)
+
 (defvar dtrace-script-mode-map nil "Keymap used in D mode buffers.")
 
 ;;
