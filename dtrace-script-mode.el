@@ -352,7 +352,7 @@ With argument, repeat that many times; negative args move backward."
 
 
 ;;;###autoload
-(define-derived-script-mode dtrace-script-mode c-mode "DTrace"
+(define-derived-mode dtrace-script-mode c-mode "DTrace"
   "Major mode for editing DTrace code.
 This is much like C mode.  Its keymap inherits from C mode's and it has the same
 variables for customizing indentation.  It has its own abbrev table and its own
