@@ -64,9 +64,9 @@
 ;;
 ;; We just use c-mode-map with a few tweaks:
 ;;
-;; M-C-a is bound to d-beginning-of-function
-;; M-C-e is bound to d-end-of-function
-;; M-C-h is bound to d-mark-function
+;; M-C-a is bound to dtrace-script-mode-beginning-of-function
+;; M-C-e is bound to dtrace-script-mode-end-of-function
+;; M-C-h is bound to dtrace-script-mode-mark-function
 ;;
 ;; Ideally I would like to just replace whatever keybindings exist in c-mode-map
 ;; for the above with the new bindings. But up until recently, C-M-a was bound
@@ -76,11 +76,11 @@
 (unless dtrace-script-mode-map
   (setq dtrace-script-mode-map
 	(let ((map (c-make-inherited-keymap)))
-	  (define-key map "\e\C-a" 'd-beginning-of-function)
-	  (define-key map "\e\C-e" 'd-end-of-function)
+	  (define-key map "\e\C-a" 'dtrace-script-mode-beginning-of-function)
+	  (define-key map "\e\C-e" 'dtrace-script-mode-end-of-function)
 	  ;; Separate M-BS from C-M-h.  The former should remain
 	  ;; backward-kill-word.
-	  (define-key map [(control meta h)] 'd-mark-function)
+	  (define-key map [(control meta h)] 'dtrace-script-mode-mark-function)
 	  map)))
 
 (defvar dtrace-script-mode-syntax-table
@@ -106,7 +106,7 @@
 ;;
 ;; Show probes, pragmas and inlines in imenu
 ;;
-(defvar d-imenu-generic-expression
+(defvar dtrace-script-mode-imenu-generic-expression
   '(
     (nil "^\\s-*\\(\\sw+:.+\\)" 1 )
     (nil "\\s-*\\(BEGIN\\|END\\)" 1 )
@@ -121,7 +121,7 @@
 ;;
 ;; Definition of various DTrace keywords for font-lock-mode
 ;;
-(defconst d-font-lock-keywords
+(defconst dtrace-script-mode-font-lock-keywords
   (eval-when-compile
     (list
      ;;
@@ -279,7 +279,7 @@
 	) 'words)))
   "Default expressions to highlight in D mode.")
 
-(defun d-beginning-of-function (&optional arg)
+(defun dtrace-script-mode-beginning-of-function (&optional arg)
   "Move backward to next beginning-of-function, or as far as possible.
 With argument, repeat that many times; negative args move forward.
 Returns new value of point in all cases."
@@ -293,9 +293,9 @@ Returns new value of point in all cases."
        (goto-char (1- (match-end 0))))
   (beginning-of-line))
 
-(defun d-end-of-current-function ()
+(defun dtrace-script-mode-end-of-current-function ()
   "Locate the end of current D function"
-  (d-beginning-of-function 1)
+  (dtrace-script-mode-beginning-of-function 1)
   ;; Now locate opening curly brace
   (search-forward "{")
   (backward-char 1)
@@ -304,7 +304,7 @@ Returns new value of point in all cases."
 
 ;; note: this routine is adapted directly from emacs perl-mode.el.
 ;; no bugs have been removed :-)
-(defun d-end-of-function (&optional arg)
+(defun dtrace-script-mode-end-of-function (&optional arg)
   "Move forward to next end-of-function.
 The end of a function is found by moving forward from the beginning of one.
 With argument, repeat that many times; negative args move backward."
@@ -317,13 +317,13 @@ With argument, repeat that many times; negative args move backward."
 		(if (and first
 			 (progn
 			  (forward-char 1)
-			  (d-beginning-of-function 1)
+			  (dtrace-script-mode-beginning-of-function 1)
 			  (not (bobp))))
 		    nil
 		  (or (bobp) (forward-char -1))
-		  (d-beginning-of-function -1))
+		  (dtrace-script-mode-beginning-of-function -1))
 		(setq first nil)
-		(d-end-of-current-function)
+		(dtrace-script-mode-end-of-current-function)
 		(skip-chars-forward " \t")
 		(if (looking-at "[#\n]")
 		    (forward-line 1))
@@ -331,10 +331,10 @@ With argument, repeat that many times; negative args move backward."
       (setq arg (1- arg)))
     (while (< arg 0)
       (let ((pos (point)))
-	(d-end-of-function)
+	(dtrace-script-mode-end-of-function)
 	(forward-line 1)
 	(if (>= (point) pos)
-	    (if (progn (d-beginning-of-function 2) (not (bobp)))
+	    (if (progn (dtrace-script-mode-beginning-of-function 2) (not (bobp)))
 		(progn
 		  (forward-list 1)
 		  (skip-chars-forward " \t")
@@ -344,13 +344,13 @@ With argument, repeat that many times; negative args move backward."
       (setq arg (1+ arg)))))
 
 
-(defun d-mark-function ()
+(defun dtrace-script-mode-mark-function ()
   "Put mark at end of D function, point at beginning."
   (interactive)
   (push-mark (point))
-  (d-end-of-function)
+  (dtrace-script-mode-end-of-function)
   (push-mark (point))
-  (d-beginning-of-function))
+  (dtrace-script-mode-beginning-of-function))
 
 
 ;;;###autoload
@@ -362,8 +362,8 @@ syntax table.
 \\{dtrace-script-mode-map}
 
 Turning on DTrace mode runs `dtrace-script-mode-hook'."
-  (setq imenu-generic-expression d-imenu-generic-expression)
-  (setq font-lock-defaults '(d-font-lock-keywords nil nil ((?_ . "w")))))
+  (setq imenu-generic-expression dtrace-script-mode-imenu-generic-expression)
+  (setq font-lock-defaults '(dtrace-script-mode-font-lock-keywords nil nil ((?_ . "w")))))
 
 (provide 'dtrace-script-mode)
 
