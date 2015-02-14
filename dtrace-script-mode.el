@@ -64,7 +64,7 @@
 ;;
 ;; We just use c-mode-map with a few tweaks:
 ;;
-;; M-C-a is bound to d-beginning-of-function
+;; M-C-a is bound to dtrace-script-mode-beginning-of-function
 ;; M-C-e is bound to d-end-of-function
 ;; M-C-h is bound to d-mark-function
 ;;
@@ -76,7 +76,7 @@
 (unless dtrace-script-mode-map
   (setq dtrace-script-mode-map
 	(let ((map (c-make-inherited-keymap)))
-	  (define-key map "\e\C-a" 'd-beginning-of-function)
+	  (define-key map "\e\C-a" 'dtrace-script-mode-beginning-of-function)
 	  (define-key map "\e\C-e" 'd-end-of-function)
 	  ;; Separate M-BS from C-M-h.  The former should remain
 	  ;; backward-kill-word.
@@ -279,7 +279,7 @@
 	) 'words)))
   "Default expressions to highlight in D mode.")
 
-(defun d-beginning-of-function (&optional arg)
+(defun dtrace-script-mode-beginning-of-function (&optional arg)
   "Move backward to next beginning-of-function, or as far as possible.
 With argument, repeat that many times; negative args move forward.
 Returns new value of point in all cases."
@@ -295,7 +295,7 @@ Returns new value of point in all cases."
 
 (defun d-end-of-current-function ()
   "Locate the end of current D function"
-  (d-beginning-of-function 1)
+  (dtrace-script-mode-beginning-of-function 1)
   ;; Now locate opening curly brace
   (search-forward "{")
   (backward-char 1)
@@ -317,11 +317,11 @@ With argument, repeat that many times; negative args move backward."
 		(if (and first
 			 (progn
 			  (forward-char 1)
-			  (d-beginning-of-function 1)
+			  (dtrace-script-mode-beginning-of-function 1)
 			  (not (bobp))))
 		    nil
 		  (or (bobp) (forward-char -1))
-		  (d-beginning-of-function -1))
+		  (dtrace-script-mode-beginning-of-function -1))
 		(setq first nil)
 		(d-end-of-current-function)
 		(skip-chars-forward " \t")
@@ -334,7 +334,7 @@ With argument, repeat that many times; negative args move backward."
 	(d-end-of-function)
 	(forward-line 1)
 	(if (>= (point) pos)
-	    (if (progn (d-beginning-of-function 2) (not (bobp)))
+	    (if (progn (dtrace-script-mode-beginning-of-function 2) (not (bobp)))
 		(progn
 		  (forward-list 1)
 		  (skip-chars-forward " \t")
@@ -350,7 +350,7 @@ With argument, repeat that many times; negative args move backward."
   (push-mark (point))
   (d-end-of-function)
   (push-mark (point))
-  (d-beginning-of-function))
+  (dtrace-script-mode-beginning-of-function))
 
 
 ;;;###autoload
