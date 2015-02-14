@@ -66,7 +66,7 @@
 ;;
 ;; M-C-a is bound to dtrace-script-mode-beginning-of-function
 ;; M-C-e is bound to dtrace-script-mode-end-of-function
-;; M-C-h is bound to d-mark-function
+;; M-C-h is bound to dtrace-script-mode-mark-function
 ;;
 ;; Ideally I would like to just replace whatever keybindings exist in c-mode-map
 ;; for the above with the new bindings. But up until recently, C-M-a was bound
@@ -80,7 +80,7 @@
 	  (define-key map "\e\C-e" 'dtrace-script-mode-end-of-function)
 	  ;; Separate M-BS from C-M-h.  The former should remain
 	  ;; backward-kill-word.
-	  (define-key map [(control meta h)] 'd-mark-function)
+	  (define-key map [(control meta h)] 'dtrace-script-mode-mark-function)
 	  map)))
 
 (defvar dtrace-script-mode-syntax-table
@@ -344,7 +344,7 @@ With argument, repeat that many times; negative args move backward."
       (setq arg (1+ arg)))))
 
 
-(defun d-mark-function ()
+(defun dtrace-script-mode-mark-function ()
   "Put mark at end of D function, point at beginning."
   (interactive)
   (push-mark (point))
