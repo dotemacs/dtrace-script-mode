@@ -121,7 +121,7 @@
 ;;
 ;; Definition of various DTrace keywords for font-lock-mode
 ;;
-(defconst d-font-lock-keywords
+(defconst dtrace-script-mode-font-lock-keywords
   (eval-when-compile
     (list
      ;;
@@ -363,7 +363,7 @@ syntax table.
 
 Turning on DTrace mode runs `dtrace-script-mode-hook'."
   (setq imenu-generic-expression d-imenu-generic-expression)
-  (setq font-lock-defaults '(d-font-lock-keywords nil nil ((?_ . "w")))))
+  (setq font-lock-defaults '(dtrace-script-mode-font-lock-keywords nil nil ((?_ . "w")))))
 
 (provide 'dtrace-script-mode)
 
