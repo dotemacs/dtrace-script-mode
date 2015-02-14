@@ -106,7 +106,7 @@
 ;;
 ;; Show probes, pragmas and inlines in imenu
 ;;
-(defvar d-imenu-generic-expression
+(defvar dtrace-script-mode-imenu-generic-expression
   '(
     (nil "^\\s-*\\(\\sw+:.+\\)" 1 )
     (nil "\\s-*\\(BEGIN\\|END\\)" 1 )
@@ -362,7 +362,7 @@ syntax table.
 \\{dtrace-script-mode-map}
 
 Turning on DTrace mode runs `dtrace-script-mode-hook'."
-  (setq imenu-generic-expression d-imenu-generic-expression)
+  (setq imenu-generic-expression dtrace-script-mode-imenu-generic-expression)
   (setq font-lock-defaults '(dtrace-script-mode-font-lock-keywords nil nil ((?_ . "w")))))
 
 (provide 'dtrace-script-mode)
