@@ -293,7 +293,7 @@ Returns new value of point in all cases."
        (goto-char (1- (match-end 0))))
   (beginning-of-line))
 
-(defun d-end-of-current-function ()
+(defun dtrace-script-mode-end-of-current-function ()
   "Locate the end of current D function"
   (dtrace-script-mode-beginning-of-function 1)
   ;; Now locate opening curly brace
@@ -323,7 +323,7 @@ With argument, repeat that many times; negative args move backward."
 		  (or (bobp) (forward-char -1))
 		  (dtrace-script-mode-beginning-of-function -1))
 		(setq first nil)
-		(d-end-of-current-function)
+		(dtrace-script-mode-end-of-current-function)
 		(skip-chars-forward " \t")
 		(if (looking-at "[#\n]")
 		    (forward-line 1))
