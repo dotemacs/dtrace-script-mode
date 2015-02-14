@@ -65,7 +65,7 @@
 ;; We just use c-mode-map with a few tweaks:
 ;;
 ;; M-C-a is bound to dtrace-script-mode-beginning-of-function
-;; M-C-e is bound to d-end-of-function
+;; M-C-e is bound to dtrace-script-mode-end-of-function
 ;; M-C-h is bound to d-mark-function
 ;;
 ;; Ideally I would like to just replace whatever keybindings exist in c-mode-map
@@ -77,7 +77,7 @@
   (setq dtrace-script-mode-map
 	(let ((map (c-make-inherited-keymap)))
 	  (define-key map "\e\C-a" 'dtrace-script-mode-beginning-of-function)
-	  (define-key map "\e\C-e" 'd-end-of-function)
+	  (define-key map "\e\C-e" 'dtrace-script-mode-end-of-function)
 	  ;; Separate M-BS from C-M-h.  The former should remain
 	  ;; backward-kill-word.
 	  (define-key map [(control meta h)] 'd-mark-function)
@@ -304,7 +304,7 @@ Returns new value of point in all cases."
 
 ;; note: this routine is adapted directly from emacs perl-mode.el.
 ;; no bugs have been removed :-)
-(defun d-end-of-function (&optional arg)
+(defun dtrace-script-mode-end-of-function (&optional arg)
   "Move forward to next end-of-function.
 The end of a function is found by moving forward from the beginning of one.
 With argument, repeat that many times; negative args move backward."
@@ -331,7 +331,7 @@ With argument, repeat that many times; negative args move backward."
       (setq arg (1- arg)))
     (while (< arg 0)
       (let ((pos (point)))
-	(d-end-of-function)
+	(dtrace-script-mode-end-of-function)
 	(forward-line 1)
 	(if (>= (point) pos)
 	    (if (progn (dtrace-script-mode-beginning-of-function 2) (not (bobp)))
@@ -348,7 +348,7 @@ With argument, repeat that many times; negative args move backward."
   "Put mark at end of D function, point at beginning."
   (interactive)
   (push-mark (point))
-  (d-end-of-function)
+  (dtrace-script-mode-end-of-function)
   (push-mark (point))
   (dtrace-script-mode-beginning-of-function))
 
