@@ -4,7 +4,7 @@
 
 [DTrace][dtrace] script mode.
 
-Originally written by Alexander Kolbasov.
+Originally written by **Alexander Kolbasov**.
 
 ## Install
 
