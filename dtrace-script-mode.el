@@ -352,6 +352,8 @@ With argument, repeat that many times; negative args move backward."
   (push-mark (point))
   (dtrace-script-mode-beginning-of-function))
 
+;;;###autoload
+(add-to-list 'interpreter-mode-alist '("dtrace" . dtrace-script-mode))
 
 ;;;###autoload
 (define-derived-mode dtrace-script-mode c-mode "DTrace"
